@@ -1,6 +1,7 @@
 import { PlusCircleIcon } from "@heroicons/react/24/solid"
 import { Draggable, Droppable } from "react-beautiful-dnd"
 import TodoCard from "./TodoCard"
+import { useBoardStore } from "@/store/BoardStore"
 
 type Props={
     id:TypedColumn,
@@ -17,6 +18,8 @@ const idToCOlumnText: {
 }
 
 function Column({id,todos,index}:Props) {
+const [searchString]=useBoardStore((state)=>[state.searchString]);
+
   return (
     <Draggable draggableId={id} index={index} >
         {(provided) => (
@@ -42,7 +45,9 @@ function Column({id,todos,index}:Props) {
                                     <span className="text-gray-500 bg-gray-200 rounded-full px-2 py-1 text-sm font-normal">{todos.length}</span>
                                 </h2>
                                 <div className="space-y-2">
-                                    {todos.map((todo,index) => (
+                                    {todos.map((todo,index) => {
+                                        if(searchString && !todo.title.toLowerCase().includes(searchString.toLowerCase())) return null;
+                                        return(
                                         <Draggable
                                         key={todo.$id}
                                         draggableId={todo.$id}
@@ -59,7 +64,7 @@ function Column({id,todos,index}:Props) {
                                                 />
                                             )}
                                         </Draggable>
-                                        ))}
+                                        )})}
                                         {provided.placeholder}
                                         <div className="flex justify-end items-end p-2">
                                             <button className="text-green-500 hover:text-green-600">
