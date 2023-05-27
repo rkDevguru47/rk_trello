@@ -1,5 +1,6 @@
 'use client'
 
+import { XCircleIcon } from "@heroicons/react/24/solid";
 import { DraggableProvidedDragHandleProps, DraggableProvidedDraggableProps } from "react-beautiful-dnd";
 
 type Props = {
@@ -28,7 +29,13 @@ dragHandleProps,
     ref={innerRef}
     className="bg-white rounded-md space-y-2 drop-shadow-md p-4"
     >
-        <h1>hello</h1>
+       <div className="flex justify-between items-center p-5">
+        <p>{todo.title}</p>
+        <button className="text-red-500 hover:text-red-700">
+            <XCircleIcon className="ml-5 h-8 w-8"/>
+        </button>
+        </div>
+        {/* {imageUrl && } */}
     </div>
   )
 }
