@@ -2,28 +2,49 @@
 
 import { useBoardStore } from '@/store/BoardStore';
 import { useEffect } from 'react';
-import { DragDropContext,Droppable } from 'react-beautiful-dnd';
+import { DragDropContext,DropResult,Droppable } from 'react-beautiful-dnd';
+import Column from './Column';
 
 function Board() {
-  const getBoard = useBoardStore((state)=>state.getBoard);
+  const [board,getBoard] = useBoardStore((state)=>[
+    state.board,
+    state.getBoard
+  ]);
   
   
   useEffect(()=>{
       getBoard();
   },[getBoard])
+  
+ // console.log(board);
 
+ const handleOnDragEnd = (result:DropResult)=>{
+  
+ }
   return (
     <>
-    <h1>Boardrk</h1>
-    {/* <DragDropContext>
+    <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId='board' direction='horizontal' type='column'>
         {(provided)=>(
-          <div>
-
+          <div
+          {...provided.droppableProps}
+          ref={provided.innerRef}
+          className='grid grid-cols-1 md:grid-cols-3 max-w-7xl mx-auto'
+          >
+            {
+            Array.from(board.columns.entries()).map(([id,columns],index)=>(
+              <Column
+              key={id}
+              id={id}
+              todos={columns.todos}
+              index={index}
+              />
+            ))
+            }
           </div>
         )}
       </Droppable>
-    </DragDropContext> */}
+    </DragDropContext>
     </>
   ) 
 }
