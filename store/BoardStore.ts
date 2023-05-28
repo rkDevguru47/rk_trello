@@ -14,11 +14,16 @@ interface BoardState {
     setNewTaskInput:(input:string)=>void;
     newTaskType:TypedColumn;
     setNewTaskType:(columnId:TypedColumn)=>void;
+    image:File|null;
+    setImage:(image:File|null)=>void;
 
 }
 
 export const useBoardStore = create<BoardState>((set,get) => ({
-//search string
+setImage:(image:File|null)=>set({image}),
+image:null,
+
+  //search string
 searchString:'',
 setSearchString:(searchString)=>set({searchString}),
 
